@@ -12,7 +12,7 @@
 $ npm init -y
 $ npm i -D 
 ```
-***`🧩 package.json`***<br>
+**`🧩 package.json`**<br>
 
 `"test": "echo \"Error: no test specified\" && exit 1"` -> 삭제
 ```json
@@ -23,7 +23,7 @@ $ npm i -D
 ```
 Parcel Bundler와 달리 구성파일을 제공해야함!<br>
 
-***`🌐 webpack.config.js`***<br>
+**`🌐 webpack.config.js`**<br>
 브라우저에서 동작하는 것이 아니라 node.js환경에서 동작함
 ```jsx
 // import
@@ -68,15 +68,16 @@ module.exports = {
 }
 ```
 
+
 ### EJS 템플릿 사용하기
 
 **html-webpack-plugin: 최초 실행될 HTML 파일(템플릿)을 연결**
 
 ```
-**$** npm i -D html-webpack-plugin
+$ npm i -D html-webpack-plugin
 ```
 
-🌐**`webpack.config.js`**에 다시 작성
+**`🌐 webpack.config.js`** 에 다시 작성
 ```jsx
 ...
 const HtmlPlugin = require('html-webpack-plugin');
@@ -126,10 +127,10 @@ png → Favicon 변경해주는 사이트를 이용해서 폴더에 담은 후 �
 **copy-webpack-plugin: 정적 파일(파비콘, 이미지 등)을 제품(dist) 폴더로 복사**
 
 ```
-npm i -D copy-webpack-plugin
+$ npm i -D copy-webpack-plugin
 ```
 
-**`webpack.config.js`**
+**`🌐 webpack.config.js`**
 
 ```jsx
 ...
