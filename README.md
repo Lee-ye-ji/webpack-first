@@ -69,9 +69,11 @@ module.exports = {
 ```
 
 
-### EJS 템플릿 사용하기
+## EJS 템플릿 사용하기
 
-**html-webpack-plugin: 최초 실행될 HTML 파일(템플릿)을 연결**
+**html-webpack-plugin**
+
+: 최초 실행될 HTML 파일(템플릿)을 연결
 
 ```
 $ npm i -D html-webpack-plugin
@@ -113,18 +115,20 @@ $ npm run dev
     }
 ```
 
-### Favicon 적용
+## Favicon 적용
 
 [ICO Convert - Create Icons From PNG & JPG Images Online](https://icoconvert.com/)
 
 png → Favicon 변경해주는 사이트를 이용해서 폴더에 담은 후 아래의 디렉토리 처럼 변경
 
-![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/67c1b93a-2f6e-452a-8118-61ef1b4a8b95/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/67c1b93a-2f6e-452a-8118-61ef1b4a8b95/Untitled.png)
+![Untitled](https://user-images.githubusercontent.com/59958929/125202769-0b802100-e2b0-11eb-96df-bd5d69400723.png)
 
 - statc 폴더 생성 후 favicon.ico
 - images 폴더 생성 후 logo.png
 
-**copy-webpack-plugin: 정적 파일(파비콘, 이미지 등)을 제품(dist) 폴더로 복사**
+**copy-webpack-plugin**
+
+: 정적 파일(파비콘, 이미지 등)을 제품(dist) 폴더로 복사
 
 ```
 $ npm i -D copy-webpack-plugin
@@ -159,3 +163,152 @@ module.exports = {
 ```html
 <link rel="icon" type="image/x-icon" href="favicon.ico?v=2"  />
 ```
+
+## CSS
+
+**1) index.html에 링크 추가 하는 방법**
+
+```html
+<link rel="stylesheet" href="./css/main.css">
+```
+
+static 폴더에 css 폴더를 생성해주어도 됨!
+
+**2) css 폴더를 root경로에 빼놓는 방법**
+
+```jsx
+import './css/main.css';
+```
+
+webpack은 main.js부터 읽기 때문에 css 파일을 읽을 수 있는 구조
+
+but, css를 해석할 수 있는 패키지를 설치해야함!
+
+```
+$ npm i -D css-loader style-loader
+```
+
+**css-loader**
+
+: 자바스크립트 안에 CSS를 해석하고, 모든 의존성을 해결/ CSS 파일을 로드
+
+**style-loader**
+
+: 로드된 스타일(CSS)을 <style>로 <head>에 삽입
+
+**`🌐 webpack.config.js`**
+
+```jsx
+// 모듈 처리 방식을 설정
+    module: {
+        rules: [
+        {
+            test: /\.css$/, // 정규표현식
+            use: [
+            // 순서 중요!
+            'style-loader',
+            'css-loader',
+            // 먼저 해석되는 로더 : css-loader
+            // main.js에서 import를 통해서 css파일을 가지고 옴
+            // 자바스크립트 파일에서는 css파일을 해석할 수 없기 때문에
+            // css-loader : 자바스크립트에서 css파일을 해석하는 용도
+            // style-loader : HTML 부분의 style부분에다가 해석된 내용을 삽입해주는 역할
+            ]
+        }
+    },
+```
+    
+## SCSS
+
+css → scss로 변경
+
+```jsx
+import './scss/main.scss';
+```
+
+**`🌐 webpack.config.js`**
+
+```jsx
+// 모듈 처리 방식을 설정
+    module: {
+        rules: [
+        {
+            test: /\.s?css$/,
+            use: [
+            // 순서 중요!
+            'style-loader',
+            'css-loader',
+            'sass-loader'
+            ]
+        }
+        ]
+    },
+```
+
+**sass-loader**: SCSS(Sass) 파일을 로드
+
+```
+$ npm i -D sass-loader sass
+```
+
+## Autoprefixer(PostCSS)
+
+```
+$ npm i -D postcss autoprefixer postcss-loader
+```
+
+→ 총 3개의 패키지
+
+**postcss**
+
+: Autoprefixer 등의 다양한 스타일 후처리기 패키지
+
+**autoprefixer**
+
+: 스타일에 자동으로 공급 업체 접두사(Vendor prefix)를 적용하는 PostCSS의 플러그인
+
+**postcss-loader**
+
+: PostCSS(Autoprefixer)로 스타일 파일을 처리
+
+**`🌐 webpack.config.js`**
+
+```jsx
+// 모듈 처리 방식을 설정
+    module: {
+        rules: [
+        {
+            test: /\.s?css$/,
+            use: [
+            // 순서 중요!
+            'style-loader',
+            'css-loader',
+            'postcss-loader', // 추가
+            'sass-loader'
+            ]
+        }
+        ]
+    },
+```
+    
+**`🧩 package.json`**
+```json
+"browserslist": [
+    "> 1%",
+    "last 2 versions"
+  ]
+```
+
+**`🎈.postcssrc.js`**
+
+```jsx
+module.exports = {
+    plugins: [
+        require('autoprefixer')
+    ]
+}
+```
+
+- module.exports를 통해서 할당된 내용을 밖으로 내보내기를 하고 node.js에서 동작됨
+- 내부에  plugins옵션에 postcss의 플러그인으로 사용할 autoprefixer라는 패키지를 require함수를 통해서 가지고 와서 직접적으로 연결해주는 그런 코드를 작성함!
+    
