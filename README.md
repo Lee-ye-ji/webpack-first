@@ -48,7 +48,7 @@ module.exports = {
 ```
 
 그 후 터미널에 npm run bulid를 입력해주면 dist라는 폴더가 생긴 뒤 main.js가 생겨남!
-```json
+```jsx
 // path: NodeJS에서 파일 및 디렉토리 경로 작업을 위한 전역 모듈
 const path = require('path')
 const HtmlPlugin = require('html-webpack-plugin')
@@ -66,4 +66,95 @@ module.exports = {
     clean: true
   },
 }
+```
+
+### EJS 템플릿 사용하기
+
+**html-webpack-plugin: 최초 실행될 HTML 파일(템플릿)을 연결**
+
+```
+**$** npm i -D html-webpack-plugin
+```
+
+🌐**`webpack.config.js`**에 다시 작성
+```jsx
+...
+const HtmlPlugin = require('html-webpack-plugin');
+
+// export
+module.exports = {
+   ...
+
+    // 번들링 후 결과물의 처리 방식 등 다양한 플러그인들을 설정
+    plugins: [
+        new HtmlPlugin({
+        template: './index.html',
+        })
+    ]
+}
+```
+그 후 
+
+```
+$ npm run dev
+```
+
+을 통해 실행해보면 
+
+**`http://[::]:8080/`** 같은 서버가 나올 수 있음
+
+그러므로 plugins 뒤에 **devServer** 설정해 줌!
+
+```jsx
+// 개발 서버 옵션
+    devServer: {
+        host: 'localhost',
+    }
+```
+
+### Favicon 적용
+
+[ICO Convert - Create Icons From PNG & JPG Images Online](https://icoconvert.com/)
+
+png → Favicon 변경해주는 사이트를 이용해서 폴더에 담은 후 아래의 디렉토리 처럼 변경
+
+![https://s3-us-west-2.amazonaws.com/secure.notion-static.com/67c1b93a-2f6e-452a-8118-61ef1b4a8b95/Untitled.png](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/67c1b93a-2f6e-452a-8118-61ef1b4a8b95/Untitled.png)
+
+- statc 폴더 생성 후 favicon.ico
+- images 폴더 생성 후 logo.png
+
+**copy-webpack-plugin: 정적 파일(파비콘, 이미지 등)을 제품(dist) 폴더로 복사**
+
+```
+npm i -D copy-webpack-plugin
+```
+
+**`webpack.config.js`**
+
+```jsx
+...
+const CopyPlugin = require('copy-webpack-plugin');
+
+// export
+module.exports = {
+   ...
+
+    // 번들링 후 결과물의 처리 방식 등 다양한 플러그인들을 설정
+    plugins: [
+        ...
+        new CopyPlugin({
+        patterns: [
+            { from: 'static' } // 여기서 static은 우리가 만들어 놓은 파일 이름!
+        ]
+        })
+    ],
+
+    ...
+}
+```
+
+그럼에도 파비콘이 chrome에 나오지 않는 경우 index.html <head></head>부분에 추가
+
+```html
+<link rel="icon" type="image/x-icon" href="favicon.ico?v=2"  />
 ```
