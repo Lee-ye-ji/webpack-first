@@ -71,17 +71,8 @@ module.exports = {
 
 ### [EJS 템플릿 사용하기](./docs/EJS.md)
 ### [Favicon 적용](./docs/Favicon.md)
-
-## CSS
-
-    
-## SCSS
-
-
-
-## Autoprefixer(PostCSS)
-
-
- 
-## babel
+### [CSS](./docs/css.md)   
+### [SCSS](./docs/scss.md) 
+### [Autoprefixer(PostCSS)](./docs/Autoprefixer.md) 
+### [babel](./docs/babel.md) 
 
