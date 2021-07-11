@@ -38,7 +38,7 @@ module.exports = {
     ],
 
     ...
-}
+} 
 ```
 
 그럼에도 파비콘이 chrome에 나오지 않는 경우 index.html <head></head>부분에 추가

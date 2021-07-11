@@ -6,7 +6,7 @@
 
 ```
 $ npm i -D html-webpack-plugin
-```
+``` 
 
 **`🌐 webpack.config.js`** 에 다시 작성
 ```jsx
